@@ -4,11 +4,14 @@ import { calculateExercises } from './exerciseCalculator.ts';
 type ReqBody = { target: number; daily_exercises: number[] };
 
 const app = express();
+const onlyNumbers = (array:Number[]):Boolean => {
+  return array.every((e) => !isNaN(Number(e)))
+};
 
 app.use(express.json());
 
 app.get('/hello', (_req, res) => {
-  res.send('Hello Full Stack');
+  res.send('Hello Full Stack!');
 });
 
 app.get('/bmi', (req, res) => {
@@ -23,14 +26,20 @@ app.get('/bmi', (req, res) => {
     const bmi: string = calculateBmi(height, weight);
     res.json({ weight, height, bmi });
   } else {
-    res.json({ error: 'malformatted parameters' });
+    res.status(400).json({ error: 'malformatted parameters' });
   }
 });
 
 app.post('/exercises', (req: Request, res: Response) => {
   const { daily_exercises, target } = req.body as ReqBody;
+  console.log(req.body);
+  console.log("---");
+  console.log(daily_exercises, target);
   if (target && daily_exercises) {
-    if (!isNaN(Number(daily_exercises)) && !isNaN(Number(target))) {
+    console.log(onlyNumbers(daily_exercises), !isNaN(Number(target))) 
+    if (onlyNumbers(daily_exercises)&& !isNaN(Number(target))) {
+      const result = calculateExercises(daily_exercises, target)
+      console.log("result",result)
       res.json(calculateExercises(daily_exercises, target));
     } else {
       res.status(400).json({ error: 'malformatted parameters' });
