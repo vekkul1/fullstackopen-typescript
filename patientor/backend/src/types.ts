@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import type { v1 as uuid } from 'uuid';
 
 export const Gender = {
   Male: 'male',
@@ -26,6 +25,6 @@ export interface Diagnosis {
 export type NewPatient = z.infer<typeof NewPatientSchema>;
 
 export interface Patient extends NewPatient {
-  id: number;
+  id: string;
 }
 export type NonSensitivePatient = Omit<Patient, 'ssn'>;
