@@ -47,6 +47,17 @@ const Form = (props: FormProps) => {
         }
       });
   };
+  //   Sunny: 'sunny',
+  // Rainy: 'rainy',
+  // Cloudy: 'cloudy',
+  // Stormy: 'stormy',
+  // Windy: 'windy',
+  //
+  //   Great: 'great',
+  // Good: 'good',
+  // Ok: 'ok',
+  // Poor: 'poor',
+
   return (
     <>
       <h2>Add New Entry:</h2>
@@ -67,23 +78,72 @@ const Form = (props: FormProps) => {
         <label htmlFor='weather'>
           Weather: <br />
           <input
-            type='text'
+            type='radio'
             name='weather'
-            value={weather}
+            value='sunny'
             onChange={(e) => setWeather(e.target.value)}
-            required
-          />
+          />{' '}
+          Sunny
+          <input
+            type='radio'
+            name='weather'
+            value='rainy'
+            onChange={(e) => setWeather(e.target.value)}
+          />{' '}
+          Rainy
+          <input
+            type='radio'
+            name='weather'
+            value='cloudy'
+            onChange={(e) => setWeather(e.target.value)}
+          />{' '}
+          Cloudy
+          <input
+            type='radio'
+            name='weather'
+            value='stormy'
+            onChange={(e) => setWeather(e.target.value)}
+          />{' '}
+          Stormy
+          <input
+            type='radio'
+            name='weather'
+            value='windy'
+            onChange={(e) => setWeather(e.target.value)}
+          />{' '}
+          Windy
         </label>
         <br />
         <label htmlFor='visibility'>
           Visibility: <br />
           <input
-            type='text'
+            type='radio'
             name='visibility'
-            value={visibility}
+            value='great'
             onChange={(e) => setVisibility(e.target.value)}
-            required
-          />
+          />{' '}
+          Great
+          <input
+            type='radio'
+            name='visibility'
+            value='good'
+            onChange={(e) => setVisibility(e.target.value)}
+          />{' '}
+          Good
+          <input
+            type='radio'
+            name='visibility'
+            value='ok'
+            onChange={(e) => setVisibility(e.target.value)}
+          />{' '}
+          Ok
+          <input
+            type='radio'
+            name='visibility'
+            value='poor'
+            onChange={(e) => setVisibility(e.target.value)}
+          />{' '}
+          Poor
         </label>
         <br />
         <label htmlFor='comment'>
