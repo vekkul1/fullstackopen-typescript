@@ -1,8 +1,9 @@
 import { useState, type SyntheticEvent } from 'react';
+import { isAxiosError } from 'axios';
 import type { NewDiaryEntry } from '../types';
 
 interface FormProps {
-  createEntry: (entry: NewDiaryEntry) => void;
+  createEntry: (entry: NewDiaryEntry) => Promise<void>;
 }
 
 const Form = (props: FormProps) => {
@@ -10,6 +11,7 @@ const Form = (props: FormProps) => {
   const [weather, setWeather] = useState<string>('');
   const [visibility, setVisibility] = useState<string>('');
   const [comment, setComment] = useState<string>('');
+  const [errorMessage, setError] = useState<string>('');
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -19,15 +21,37 @@ const Form = (props: FormProps) => {
       visibility,
       comment,
     };
-    props.createEntry(newEntry);
-    setDate('');
-    setWeather('');
-    setVisibility('');
-    setComment('');
+    props
+      .createEntry(newEntry)
+      .then(() => {
+        setDate('');
+        setWeather('');
+        setVisibility('');
+        setComment('');
+      })
+      .catch((error) => {
+        if (isAxiosError(error)) {
+          const foundError = error.response.data.error;
+          const errors = [];
+          for (const i in foundError) {
+            // console.log(foundError[i].path[0]);
+            const j = foundError[i].path[0];
+            errors.push('Error: Incorrect ' + j + ' : ' + newEntry[j]);
+          }
+          setError(errors.join(', '));
+          setTimeout(() => {
+            setError('');
+          }, 5000);
+        } else {
+          console.log(error);
+        }
+      });
   };
   return (
     <>
       <h2>Add New Entry:</h2>
+
+      {errorMessage && <div style={{ color: 'red' }}>{errorMessage}</div>}
       <form onSubmit={handleSubmit}>
         <label htmlFor='date'>
           Date: <br />
