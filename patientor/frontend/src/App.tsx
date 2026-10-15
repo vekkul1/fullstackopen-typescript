@@ -24,7 +24,7 @@ const App = () => {
   }, []);
 
   const match = useMatch('/patients/:id');
-  const patientId = match ? match.params.id : null;
+  const patientId = match ? match.params.id : undefined;
 
   return (
     <div className='App'>

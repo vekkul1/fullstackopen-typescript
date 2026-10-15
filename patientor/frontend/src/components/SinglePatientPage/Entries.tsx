@@ -3,8 +3,16 @@ import MedicalServicesIcon from '@mui/icons-material/MedicalServices';
 import WorkIcon from '@mui/icons-material/Work';
 import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import assertNever from '../../utils';
 
-import type { HealthCheckRating, Diagnosis, Entry } from '../../types';
+import type {
+  HealthCheckRating,
+  Diagnosis,
+  Entry,
+  HospitalEntry,
+  HealthCheckEntry,
+  OccupationalHealthcareEntry,
+} from '../../types';
 
 interface DiagnosesProps {
   codes: Array<Diagnosis['code']>;
@@ -18,6 +26,18 @@ interface EntriesProps {
   entries: Entry[];
   diagnoses: Diagnosis[];
 }
+interface HospitalProps {
+  entry: HospitalEntry;
+  diagnoses: Diagnosis[];
+}
+interface HealthCheckProps {
+  entry: HealthCheckEntry;
+  diagnoses: Diagnosis[];
+}
+interface OccuProps {
+  entry: OccupationalHealthcareEntry;
+  diagnoses: Diagnosis[];
+}
 
 const Diagnoses = ({ codes, diagnoses }: DiagnosesProps) => {
   if (!diagnoses) {
@@ -28,7 +48,7 @@ const Diagnoses = ({ codes, diagnoses }: DiagnosesProps) => {
       {Object.values(codes).map((code) => (
         <li key={code}>
           <Typography variant='body2'>
-            {code}: {diagnoses.find((d) => d.code === code)['name']}
+            {code}: {diagnoses.find((d) => d.code === code)?.name}
           </Typography>
         </li>
       ))}
@@ -49,7 +69,7 @@ const Rating = ({ rating }: { rating: HealthCheckRating }) => {
   }
 };
 
-const HealthCheck = ({ entry, diagnoses }: EntryProps) => {
+const HealthCheck = ({ entry, diagnoses }: HealthCheckProps) => {
   return (
     <Card
       component={Paper}
@@ -71,7 +91,7 @@ const HealthCheck = ({ entry, diagnoses }: EntryProps) => {
   );
 };
 
-const OccupationalHealthcare = ({ entry, diagnoses }: EntryProps) => {
+const OccupationalHealthcare = ({ entry, diagnoses }: OccuProps) => {
   return (
     <Card
       component={Paper}
@@ -99,7 +119,7 @@ const OccupationalHealthcare = ({ entry, diagnoses }: EntryProps) => {
   );
 };
 
-const Hospital = ({ entry, diagnoses }: EntryProps) => {
+const Hospital = ({ entry, diagnoses }: HospitalProps) => {
   return (
     <Card
       component={Paper}

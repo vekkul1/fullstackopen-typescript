@@ -12,7 +12,8 @@ import HealthCheckForm from './HealthCheckForm';
 import HospitalForm from './HospitalForm';
 import OccupationalHealthcareForm from './OccupationalHealthcareForm';
 import { useState } from 'react';
-import { Diagnosis, NewEntry } from '../../types';
+import { Diagnosis, Entry, NewEntry } from '../../types';
+import assertNever from '../../utils';
 
 interface Props {
   onSubmit: (entry: NewEntry) => void;
@@ -26,7 +27,7 @@ interface Props {
 interface FormProps {
   onSubmit: (entry: NewEntry) => void;
   onClose: () => void;
-  type: string;
+  type: Entry['type'];
   diagnoses: Diagnosis[];
 }
 
@@ -69,7 +70,7 @@ const AddEntry = ({
   modalOpen,
   onClose,
 }: Props) => {
-  const [type, setType] = useState<string>('HealthCheck');
+  const [type, setType] = useState<Entry['type']>('HealthCheck');
   return (
     <Dialog fullWidth open={modalOpen} onClose={() => onClose()}>
       <Card variant='outlined' sx={{ padding: '1em', marginTop: '0.5em' }}>

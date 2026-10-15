@@ -22,7 +22,7 @@ const HealthCheckRating = {
 export type HealthCheckRating =
   (typeof HealthCheckRating)[keyof typeof HealthCheckRating];
 
-interface HealthCheckEntry extends BaseEntry {
+export interface HealthCheckEntry extends BaseEntry {
   type: 'HealthCheck';
   healthCheckRating: HealthCheckRating;
 }
@@ -32,7 +32,7 @@ type DischargeObject = {
   criteria: string;
 };
 
-interface HospitalEntry extends BaseEntry {
+export interface HospitalEntry extends BaseEntry {
   type: 'Hospital';
   discharge: DischargeObject;
 }
@@ -42,7 +42,7 @@ type SickLeaveObject = {
   endDate: string;
 };
 
-interface OccupationalHealthcareEntry extends BaseEntry {
+export interface OccupationalHealthcareEntry extends BaseEntry {
   type: 'OccupationalHealthcare';
   employerName: string;
   sickLeave?: SickLeaveObject;
