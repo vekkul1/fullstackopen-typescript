@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { isAxiosError } from 'axios';
-import { Typography } from '@mui/material';
+import { Typography, Button } from '@mui/material';
 
 import patientService from '../../services/patients';
 import diagnosesService from '../../services/diagnoses';
@@ -20,6 +20,13 @@ const SinglePatientPage = ({ id, patients, setPatients }: SingleProps) => {
   const [error, setError] = useState<string>();
   const [formKey, setFormKey] = useState<number>(0);
 
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  const openModal = (): void => setModalOpen(true);
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
   useEffect(() => {
     const fetchDiagnoses = async () => {
       const d = await diagnosesService.getAll();
@@ -83,9 +90,14 @@ const SinglePatientPage = ({ id, patients, setPatients }: SingleProps) => {
         error={error}
         formKey={formKey}
         diagnoses={diagnoses}
+        modalOpen={modalOpen}
+        onClose={closeModal}
       />
+      <Button variant='contained' onClick={() => openModal()}>
+        Add New Entry
+      </Button>
 
-      {patient.entries?.length !== 0 && (
+      {patient.entries && patient.entries.length !== 0 && (
         <Entries entries={patient.entries} diagnoses={diagnoses} />
       )}
     </div>

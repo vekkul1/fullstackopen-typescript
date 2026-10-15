@@ -6,7 +6,6 @@ import {
   InputLabel,
   FormControl,
   MenuItem,
-  Input,
 } from '@mui/material';
 import { SyntheticEvent, useState } from 'react';
 import { Diagnosis, HealthCheckRating, NewEntry } from '../../types';
@@ -14,9 +13,10 @@ import { Diagnosis, HealthCheckRating, NewEntry } from '../../types';
 interface Props {
   onSubmit: (entry: NewEntry) => void;
   diagnoses: Diagnosis[];
+  onClose: () => void;
 }
 
-const HealthCheckForm = ({ onSubmit, diagnoses }: Props) => {
+const HealthCheckForm = ({ onSubmit, diagnoses, onClose }: Props) => {
   const [date, setDate] = useState<string>('');
   const [description, setDesc] = useState<string>('');
   const [specialist, setSpec] = useState<string>('');
@@ -93,7 +93,9 @@ const HealthCheckForm = ({ onSubmit, diagnoses }: Props) => {
           multiple
           value={diagnosisCodes}
           sx={{ marginTop: '0.5em' }}
-          onChange={({ target }) => setCode(target.value)}
+          onChange={({ target }) =>
+            setCode(diagnosisCodes?.concat(target.value))
+          }
         >
           {diagnoses.map((d) => (
             <MenuItem value={d.code}>
@@ -106,7 +108,9 @@ const HealthCheckForm = ({ onSubmit, diagnoses }: Props) => {
         <Button type='submit' variant='contained'>
           Submit
         </Button>
-        <Button variant='outlined'>Cancel</Button>
+        <Button variant='outlined' onClick={() => onClose()}>
+          Cancel
+        </Button>
       </ButtonGroup>
     </form>
   );
