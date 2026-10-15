@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { isAxiosError } from 'axios';
-import { Typography, Button } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import patientService from '../../services/patients';
 import diagnosesService from '../../services/diagnoses';
@@ -78,7 +78,12 @@ const SinglePatientPage = ({ id, patients, setPatients }: SingleProps) => {
       <Typography variant='body1'>
         date of birth: {patient.dateOfBirth}
       </Typography>
-      <AddEntry onSubmit={submitEntry} error={error} formKey={formKey} />
+      <AddEntry
+        onSubmit={submitEntry}
+        error={error}
+        formKey={formKey}
+        diagnoses={diagnoses}
+      />
 
       {patient.entries?.length !== 0 && (
         <Entries entries={patient.entries} diagnoses={diagnoses} />

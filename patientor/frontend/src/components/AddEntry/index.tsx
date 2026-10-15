@@ -1,40 +1,64 @@
-import { Card, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import {
+  Card,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import HealthCheckForm from './HealthCheckForm';
 import HospitalForm from './HospitalForm';
 import OccupationalHealthcareForm from './OccupationalHealthcareForm';
 import { useState } from 'react';
-import { NewEntry } from '../../types';
+import { Diagnosis, NewEntry } from '../../types';
 
 interface Props {
   onSubmit: (entry: NewEntry) => void;
   error?: string;
   formKey: number;
+  diagnoses: Diagnosis[];
 }
 
 interface FormProps {
   onSubmit: (entry: NewEntry) => void;
   error?: string;
   type: string;
+  diagnoses: Diagnosis[];
 }
 
-const Form = ({ type, error, onSubmit }: FormProps) => {
+const Form = ({ type, error, onSubmit, diagnoses }: FormProps) => {
   switch (type) {
     case 'HealthCheck':
-      return <HealthCheckForm error={error} onSubmit={onSubmit} />;
+      return (
+        <HealthCheckForm
+          error={error}
+          onSubmit={onSubmit}
+          diagnoses={diagnoses}
+        />
+      );
     case 'Hospital':
-      return <HospitalForm error={error} onSubmit={onSubmit} />;
+      return (
+        <HospitalForm error={error} onSubmit={onSubmit} diagnoses={diagnoses} />
+      );
     case 'OccupationalHealthcare':
-      return <OccupationalHealthcareForm error={error} onSubmit={onSubmit} />;
+      return (
+        <OccupationalHealthcareForm
+          error={error}
+          onSubmit={onSubmit}
+          diagnoses={diagnoses}
+        />
+      );
     default:
       assertNever(type);
   }
 };
 
-const AddEntry = ({ onSubmit, error, formKey }: Props) => {
+const AddEntry = ({ onSubmit, error, formKey, diagnoses }: Props) => {
   const [type, setType] = useState<string>('HealthCheck');
   return (
     <Card variant='outlined' sx={{ padding: '1em', marginTop: '0.5em' }}>
-      {/*{error && <Alert severity='error'>{error}</Alert>}*/}
+      <Typography variant='h6'>New Entry:</Typography>
+      {error && <Alert severity='error'>{error}</Alert>}
       <FormControl fullWidth sx={{ marginTop: '0.5em' }}>
         <InputLabel id='entry-type-label'>Entry Type</InputLabel>
         <Select
@@ -50,7 +74,13 @@ const AddEntry = ({ onSubmit, error, formKey }: Props) => {
           </MenuItem>
         </Select>
       </FormControl>
-      <Form key={formKey} type={type} error={error} onSubmit={onSubmit} />
+      <Form
+        key={formKey}
+        type={type}
+        error={error}
+        onSubmit={onSubmit}
+        diagnoses={diagnoses}
+      />
     </Card>
   );
 };
