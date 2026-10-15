@@ -123,7 +123,7 @@ const OccupationalHealthcareForm = ({
       </FormControl>
       <ButtonGroup sx={{ marginTop: '0.5em' }}>
         <Button type='submit' variant='contained'>
-          Submit
+         Add 
         </Button>
         <Button variant='outlined' onClick={() => onClose()}>
           Cancel
